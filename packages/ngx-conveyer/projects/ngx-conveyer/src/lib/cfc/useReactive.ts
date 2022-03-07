@@ -9,8 +9,8 @@ export function useReactive<
   >(self: State, reactiveProps: ReactiveAdapter<Instance, State, Methods, Data, Events>) {
   const reactiveState = reactiveProps.state as any;
   const names = Object.keys(reactiveState);
-  const instRef: Ref<Instance> = { current: null };
-  const methods = withReactiveMethods(instRef, reactiveProps.methods);
+  const instanceRef: Ref<Instance> = { current: null };
+  const methods = withReactiveMethods(instanceRef, reactiveProps.methods);
 
   for (const name in reactiveState) {
     (self as any)[name] = reactiveState[name];
@@ -24,7 +24,7 @@ export function useReactive<
       const data = reactiveProps.data ? reactiveProps.data() : {} as Data;
       const inst = reactiveProps.instance(data);
 
-      instRef.current = inst;
+      instanceRef.current = inst;
 
       names.forEach((name) => {
         inst.subscribe(name as any, (value: any) => {
@@ -39,7 +39,7 @@ export function useReactive<
     destroy() {
       const data = reactiveProps.data ? reactiveProps.data() : {} as Data;
 
-      reactiveProps.destroy(instRef.current!, data);
+      reactiveProps.destroy(instanceRef.current!, data);
     },
-  }
+  };
 }

@@ -54,4 +54,7 @@ export class AppComponent {
       duration: 500,
     });
   }
+  gg(e: any) {
+    (console as any).log(e);
+  }
 }
